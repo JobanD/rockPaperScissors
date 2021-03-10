@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ROCK, PAPER, SCISSORS!</title>
+    <link rel="stylesheet" type="text/css" href="rpsCS.css"/>
+</head>
+  <body>
+    <div class="content">
+        <div class="info">
+            <h1>First to 5 Wins!</h1>
+        </div>
+        <div id="container">Choose
+            <button value="rock">Rock</button>
+            <button value="paper">Paper</button>
+            <button value="scissors">Scissors</button>
+        </div>
+        <div class="container" id="box"></div>
+        <div class="container" id="scores"></div>
+    </div>
+
+
+    <script>
+        // variables to keep track of
+        var playerScore = 0;
+        var cpuScore = 0;
+        var round = 0;
+
+        // DOM elements
+        const box = document.querySelector('#box');
+        const scores = document.querySelector('#scores');
+        const results = document.querySelector('#results');
+
+        const selection = document.createElement('div');
+        selection.classList.add('content');
+
+        const score = document.createElement('div');
+        score.classList.add('content');
+
+        // player selection
+        var btn = document.querySelectorAll('button');
+        btn.forEach((button) => {
+            button.addEventListener('click', () => {
+                console.log(playRound(button.value));
+                console.log(playerScore);
+                console.log(cpuScore);
+            });
+        });
+
+        // randomizer to get cpu selection
+        function computerPlay(){
+            let cpuChoice = Math.random()
+            if (cpuChoice < 0.34){
+                cpuChoice = "rock"
+            } else if (cpuChoice < 0.67) {
+                cpuChoice = "paper"
+            } else {
+                cpuChoice = "scissors"
+            }
+            return cpuChoice
+        }
+
+        // one round of rps
+        function playRound(user){
+            let pWins = "You Win!!"
+            let cWins = "You Lose :("
+
+            if (playerScore === 5 || cpuScore === 5){
+                round = 0;
+                playerScore = 0;
+                cpuScore = 0;
+            }
+
+            cpu = computerPlay();
+
+            if(user == cpu) {
+                return "The result is a tie"
+            }
+
+            round++;    // if it's not a tie then it counts as a round complete
+
+            if(user=="rock"){
+                if(cpu=="scissors"){
+                    playerScore++;
+                } else {
+                    cpuScore++;
+                }
+            }
+
+            if (user=="paper"){
+                if(cpu=="rock"){
+                    playerScore++;
+                } else {
+                    cpuScore++;
+                }
+            }
+
+            if (user=="scissors") {
+                if(cpu=="paper"){
+                    playerScore++;
+                } else {
+                    cpuScore++;
+                }
+            }
+
+            selection.textContent = 'You chose: ' + user + ' - CPU chose: ' + cpu;
+            scores.textContent = 'Rounds played: ' + round + ' / CPU: ' + cpuScore + ' - Player: ' + playerScore;
+            container.appendChild(selection);
+            scores.appendChild(score);
+
+            if(playerScore == 5){
+                alert("YOU WON!");
+            } else if (cpuScore == 5){
+                alert("Cpu won :/");
+            }
+        }
+
+    </script>
+    </body>
+</html>
